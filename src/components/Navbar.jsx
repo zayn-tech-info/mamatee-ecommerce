@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { ShoppingCart } from "lucide-react";
+import { Link, Links } from "react-router-dom";
 
 const NavBar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -24,13 +26,15 @@ const NavBar = () => {
               <div className="w-8 h-8 bg-green-600 rounded-lg flex items-center justify-center">
                 <span className="text-white font-bold text-lg">M</span>
               </div>
-              <span className="ml-2 text-xl font-bold text-gray-800">Mama Tee</span>
+              <span className="ml-2 text-xl font-bold text-gray-800">
+                Mama Tee
+              </span>
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-4">
+            <div className="ml-10 flex items-center space-x-4">
               {navMenu.map((nav) => (
                 <button
                   key={nav.id}
@@ -40,6 +44,17 @@ const NavBar = () => {
                   {nav.name}
                 </button>
               ))}
+              <Link to="/cart">
+                <button
+                  onClick={() => handleNavClick("/cart")}
+                  className="text-gray-600 hover:text-green-600 hover:bg-green-50 p-2 rounded-md transition-colors duration-200 relative"
+                >
+                  <ShoppingCart size={20} />
+                  <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                    0
+                  </span>
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -49,11 +64,26 @@ const NavBar = () => {
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-600 hover:text-green-600 focus:outline-none focus:text-green-600"
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
                 {isMobileMenuOpen ? (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M6 18L18 6M6 6l12 12"
+                  />
                 ) : (
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 )}
               </svg>
             </button>
@@ -72,6 +102,16 @@ const NavBar = () => {
                   {nav.name}
                 </button>
               ))}
+              {/* Mobile Cart Icon */}
+              <Link to="/cart">
+                <button
+                  onClick={() => handleNavClick("/cart")}
+                  className="text-gray-600 hover:text-green-600 hover:bg-green-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 w-full text-left flex items-center"
+                >
+                  <ShoppingCart size={20} className="mr-2" />
+                  Cart (0)
+                </button>
+              </Link>
             </div>
           </div>
         )}
