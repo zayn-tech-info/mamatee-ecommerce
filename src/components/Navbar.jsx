@@ -1,12 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { ShoppingCart } from "lucide-react";
-import { Link, Links } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { CartContext } from "../context/CartContext";
 
 const NavBar = () => {
+  const { carts } = useContext(CartContext);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   const navMenu = [
-    { id: "1", name: "Products", href: "/products" },
+    { id: "1", name: "Products", href: "/" },
     { id: "2", name: "Categories", href: "/categories" },
     { id: "3", name: "Contact", href: "/contact" },
     { id: "4", name: "About Us", href: "/about" },
@@ -16,6 +17,10 @@ const NavBar = () => {
     console.log(`Navigating to: ${href}`);
     setIsMobileMenuOpen(false);
   };
+
+  const totalCartItem = carts.products
+    ? carts.products.reduce((sum, item) => sum + item.quantity, 0)
+    : 0;
 
   return (
     <nav className="bg-white shadow-md">
@@ -32,17 +37,18 @@ const NavBar = () => {
             </div>
           </div>
 
-          {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-center space-x-4">
               {navMenu.map((nav) => (
-                <button
-                  key={nav.id}
-                  onClick={() => handleNavClick(nav.href)}
-                  className="text-gray-600 hover:text-green-600 hover:bg-green-50 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
-                >
-                  {nav.name}
-                </button>
+                <Link key={nav.id} to={nav.href}>
+                  {" "}
+                  <button
+                    onClick={() => handleNavClick(nav.href)}
+                    className="text-gray-600 hover:text-green-600 hover:bg-green-50 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+                  >
+                    {nav.name}
+                  </button>
+                </Link>
               ))}
               <Link to="/cart">
                 <button
@@ -51,7 +57,7 @@ const NavBar = () => {
                 >
                   <ShoppingCart size={20} />
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                    0
+                    {totalCartItem}
                   </span>
                 </button>
               </Link>
@@ -94,22 +100,22 @@ const NavBar = () => {
           <div className="md:hidden">
             <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
               {navMenu.map((nav) => (
-                <button
-                  key={nav.id}
-                  onClick={() => handleNavClick(nav.href)}
-                  className="text-gray-600 hover:text-green-600 hover:bg-green-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 w-full text-left"
-                >
-                  {nav.name}
-                </button>
+                <Link key={nav.id} to={nav.href}>
+                  <button
+                    onClick={() => handleNavClick(nav.href)}
+                    className="text-gray-600 hover:text-green-600 hover:bg-green-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 w-full text-left"
+                  >
+                    {nav.name}
+                  </button>
+                </Link>
               ))}
-              {/* Mobile Cart Icon */}
               <Link to="/cart">
                 <button
                   onClick={() => handleNavClick("/cart")}
                   className="text-gray-600 hover:text-green-600 hover:bg-green-50 block px-3 py-2 rounded-md text-base font-medium transition-colors duration-200 w-full text-left flex items-center"
                 >
                   <ShoppingCart size={20} className="mr-2" />
-                  Cart (0)
+                  Cart ({totalCartItem})
                 </button>
               </Link>
             </div>

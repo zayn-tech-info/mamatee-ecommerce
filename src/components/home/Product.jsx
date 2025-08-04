@@ -19,7 +19,7 @@ const Product = () => {
         <div className="grid md:grid-cols-4 md:gap-10 gap-5 grid-cols-3 ">
           {products.map((product) => {
             return (
-              <div
+              <div key={product.id}
                 className="bg-gray-100 shadow-xl rounded-md border-1 border-gray-300"
               >
                 <div className="h-70">
